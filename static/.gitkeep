@@ -1,0 +1,46 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background: #1a73e8;
+  color: white;
+  padding: 20px 10px;
+  text-align: center;
+}
+.counter {
+  background: #fff;
+  margin: 10px auto;
+  padding: 10px;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+  font-size: 18px;
+}
+.petition-list {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 10px;
+}
+.petition {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.petition a {
+  color: #1a73e8;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+  margin-top: 5px;
+}
+.petition .clicks {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
