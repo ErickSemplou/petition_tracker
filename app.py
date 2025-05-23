@@ -1,10 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from datetime import date
 from collections import defaultdict
 
 app = Flask(__name__)
 
 stats = defaultdict(lambda: {'visits': 0, 'clicks': defaultdict(int)})
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/track', methods=['POST'])
 def track():
@@ -25,9 +29,6 @@ def get_stats():
         "visits": stats[today]['visits'],
         "clicks": stats[today]['clicks']
     })
-@app.route('/')
-def index():
-    return "Сервер працює! Використовуйте /track або /stats"
 
 if __name__ == '__main__':
     app.run(debug=True)
