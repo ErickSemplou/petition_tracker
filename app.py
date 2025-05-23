@@ -25,6 +25,9 @@ def get_stats():
         "visits": stats[today]['visits'],
         "clicks": stats[today]['clicks']
     })
+@app.route('/')
+def index():
+    return "Сервер працює! Використовуйте /track або /stats"
 
 if __name__ == '__main__':
     app.run(debug=True)
