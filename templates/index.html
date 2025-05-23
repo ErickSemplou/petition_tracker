@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вшанування Героїв України</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>💔 Вічна памʼять Героям України 💔</h1>
+  </header>
+  <div class="counter">
+    👁 Загальна кількість відвідувачів сьогодні: <span id="visitor-count">0</span><br>
+    ✅ Загальні переходи за петиціями: <span id="total-clicks">0</span>
+  </div>
+  <div class="petition-list" id="petition-list"></div>
+  <script>
+    const petitions = [
+      { id: "kinash", name: "Роман Кінаш 🔥🔥🔥", url: "https://petition.president.gov.ua/petition/245246" },
+      { id: "lystopad", name: "Антон Листопад", url: "https://petition.president.gov.ua/petition/245654" },
+      { id: "klekach", name: "Василь Клекач", url: "https://petition.president.gov.ua/petition/244660" },
+      { id: "hned", name: "Олег Гнед", url: "https://petition.president.gov.ua/petition/244852" },
+      { id: "buzykov", name: "Юрій Бузіков 🔥🔥🔥", url: "https://petition.president.gov.ua/petition/244036" },
+      { id: "tanasyuk", name: "Богдан Танасюк 🔥🔥🔥", url: "https://petition.president.gov.ua/petition/243292" },
+      { id: "valko", name: "Руслан Валько 🔥🔥🔥", url: "https://petition.president.gov.ua/petition/244108" },
+      { id: "chmut", name: "Юрій Чмут 🔥🔥🔥", url: "https://petition.president.gov.ua/petition/243630" }
+    ];
+
+    fetch("/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "visit" })
+    });
+
+    fetch("/stats")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("visitor-count").textContent = data.visits;
+        let total = 0;
+        petitions.forEach(p => {
+          const count = data.clicks[p.id] || 0;
+          total += count;
+          const div = document.createElement("div");
+          div.className = "petition";
+          div.innerHTML = \`
+            <div><strong>\${p.name}</strong></div>
+            <a href="\${p.url}" target="_blank" onclick="trackClick('\${p.id}')">\${p.url}</a>
+            <div class="clicks">Переходів сьогодні: <span id="click-\${p.id}">\${count}</span></div>
+          \`;
+          document.getElementById("petition-list").appendChild(div);
+        });
+        document.getElementById("total-clicks").textContent = total;
+      });
+
+    function trackClick(id) {
+      fetch("/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      }).then(() => {
+        const el = document.getElementById("click-" + id);
+        el.textContent = parseInt(el.textContent) + 1;
+        const total = document.getElementById("total-clicks");
+        total.textContent = parseInt(total.textContent) + 1;
+      });
+    }
+  </script>
+</body>
+</html>
